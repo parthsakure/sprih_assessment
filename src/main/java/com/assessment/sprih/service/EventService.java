@@ -6,24 +6,27 @@ import com.assessment.sprih.model.Event;
 import com.assessment.sprih.processor.EmailProcessor;
 import com.assessment.sprih.processor.EventProcessor;
 import com.assessment.sprih.processor.EventRunnable;
+import com.assessment.sprih.queue.EventQueues;
+import com.assessment.sprih.queue.EventThreads;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 @Service
 public class EventService {
 
 
-    Thread emailThread;
-    EventProcessor emailProcessor;
+    EventThreads eventThreads;
+    EventQueues eventQueues;
 
 
     public EventService(){
-        emailProcessor = new EmailProcessor(new LinkedBlockingQueue<>());
-        emailThread = new Thread(new EventRunnable(emailProcessor));
-        emailThread.start();
+        eventQueues = new EventQueues();
+        eventThreads = new EventThreads(eventQueues);
+        eventThreads.initialize();
     }
 
     public EventResponse createEvent(EventRequest request){
@@ -37,7 +40,7 @@ public class EventService {
                 .callbackUrl(request.getCallbackUrl())
                 .eventType(request.getEventType())
                 .build();
-        emailProcessor.queue.add(event);
+        eventQueues.email.add(event);
 
         return EventResponse.builder()
                 .eventId(eventId)
