@@ -40,7 +40,13 @@ public class EventService {
                 .callbackUrl(request.getCallbackUrl())
                 .eventType(request.getEventType())
                 .build();
-        eventQueues.email.add(event);
+
+        switch (request.getEventType()){
+            case EMAIL -> eventQueues.email.add(event);
+            case SMS -> eventQueues.sms.add(event);
+            case NOTIFICATION -> eventQueues.notification.add(event);
+            default -> System.out.println("Invalid Event Type!");
+        }
 
         return EventResponse.builder()
                 .eventId(eventId)

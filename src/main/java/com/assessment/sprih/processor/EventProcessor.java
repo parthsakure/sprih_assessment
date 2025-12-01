@@ -7,4 +7,8 @@ import java.util.concurrent.BlockingQueue;
 public abstract class EventProcessor {
     public BlockingQueue<Event> queue;
     abstract void execute();
+
+    protected EventProcessor(BlockingQueue<Event> queue){
+        this.queue = queue;
+    }
 }

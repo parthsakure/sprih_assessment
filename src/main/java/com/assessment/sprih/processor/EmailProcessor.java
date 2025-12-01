@@ -7,7 +7,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class EmailProcessor extends EventProcessor{
     public EmailProcessor(BlockingQueue<Event> queue){
-        this.queue = queue;
+        super(queue);
     }
 
     @Override
