@@ -1,17 +1,21 @@
-package com.assessment.sprih.dto;
+package com.assessment.sprih.model;
 
-import com.assessment.sprih.model.EventType;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashMap;
 
+
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class EventRequest {
+@AllArgsConstructor
+@Builder
+public class Event {
+    private String eventId;
     private EventType eventType;
     private String callbackUrl;
-    private HashMap<String,String> payload;
+    private HashMap<String, String> payload;
+
 }
