@@ -8,8 +8,8 @@ public class EventRunnable implements Runnable{
     @Override
     public void run() {
         while (true){
-            if(!eventProcessor.queue.isEmpty())
-                eventProcessor.execute();
+            if(!eventProcessor.isQueueEmpty())
+                eventProcessor.process();
 //            Thread.sleep(100);
         }
     }

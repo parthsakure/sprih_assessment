@@ -11,11 +11,10 @@ import java.util.HashMap;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class Event {
     private String eventId;
     private EventType eventType;
-    private String callbackUrl;
     private HashMap<String, String> payload;
+    private String callbackUrl;
 
 }

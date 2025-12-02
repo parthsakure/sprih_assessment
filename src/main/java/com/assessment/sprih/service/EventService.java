@@ -8,6 +8,7 @@ import com.assessment.sprih.processor.EventProcessor;
 import com.assessment.sprih.processor.EventRunnable;
 import com.assessment.sprih.queue.EventQueues;
 import com.assessment.sprih.queue.EventThreads;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 @Service
 public class EventService {
 
+    @Autowired
+    private CallbackService callbackService;
 
     EventThreads eventThreads;
     EventQueues eventQueues;
@@ -25,22 +28,19 @@ public class EventService {
 
     public EventService(){
         eventQueues = new EventQueues();
-        eventThreads = new EventThreads(eventQueues);
+    }
+
+    @PostConstruct
+    public void init(){
+        eventThreads = new EventThreads(eventQueues, callbackService);
         eventThreads.initialize();
     }
 
     public EventResponse createEvent(EventRequest request){
 //        System.out.println(request);
         String eventId = UUID.randomUUID().toString();
-        String message = "Event accepted for processing.";
 //        emailThread.start();
-        Event event = Event.builder()
-                .eventId(eventId)
-                .payload(request.getPayload())
-                .callbackUrl(request.getCallbackUrl())
-                .eventType(request.getEventType())
-                .build();
-
+        Event event = new Event(eventId,request.getEventType(), request.getPayload(), request.getCallbackUrl());
         switch (request.getEventType()){
             case EMAIL -> eventQueues.email.add(event);
             case SMS -> eventQueues.sms.add(event);
@@ -48,9 +48,7 @@ public class EventService {
             default -> System.out.println("Invalid Event Type!");
         }
 
-        return EventResponse.builder()
-                .eventId(eventId)
-                .message(message)
-                .build();
+        String message = "Event accepted for processing.";
+        return new EventResponse(eventId, message);
     }
 }

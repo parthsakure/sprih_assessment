@@ -1,18 +1,19 @@
 package com.assessment.sprih.queue;
 
 import com.assessment.sprih.processor.*;
-import lombok.extern.slf4j.Slf4j;
+import com.assessment.sprih.service.CallbackService;
+import org.springframework.stereotype.Component;
 
-@Slf4j
+@Component
 public class EventThreads {
-    private Thread email;
-    private Thread sms;
-    private Thread notification;
+    private final Thread email;
+    private final Thread sms;
+    private final Thread notification;
 
-    public EventThreads(EventQueues eventQueues){
-        this.email = new Thread(new EventRunnable(new EmailProcessor(eventQueues.email)));
-        this.sms = new Thread(new EventRunnable(new SMSProcessor(eventQueues.sms)));
-        this.notification = new Thread(new EventRunnable(new NotificationProcessor(eventQueues.notification)));
+    public EventThreads(EventQueues eventQueues, CallbackService callbackService){
+        this.email = new Thread(new EventRunnable(new EmailProcessor(eventQueues.email, callbackService)));
+        this.sms = new Thread(new EventRunnable(new SMSProcessor(eventQueues.sms, callbackService)));
+        this.notification = new Thread(new EventRunnable(new NotificationProcessor(eventQueues.notification, callbackService)));
     }
 
     public void initialize(){
