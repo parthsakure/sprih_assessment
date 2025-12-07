@@ -2,9 +2,11 @@ package com.assessment.sprih.processor;
 
 import com.assessment.sprih.dto.CallbackRequest;
 import com.assessment.sprih.model.Event;
+import com.assessment.sprih.model.Status;
 import com.assessment.sprih.service.CallbackService;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.concurrent.BlockingQueue;
 
 public abstract class EventProcessor {
@@ -23,7 +25,8 @@ public abstract class EventProcessor {
         try {
             if(queue.isEmpty()) return;
             Event event = queue.take();
-            CallbackRequest callbackRequest = this.execute(event);
+            boolean failure = Math.random() < 0.1;
+            CallbackRequest callbackRequest = failure ? new CallbackRequest(event.getEventId(), Status.FAILED, event.getEventType(), "Simulated processing failure", LocalDateTime.now().toString()) : this.execute(event);
             callbackService.sendRequest(event.getCallbackUrl(), callbackRequest);
         }
         catch (InterruptedException e){
