@@ -10,8 +10,6 @@ public class CallbackService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-
-
     public void sendRequest(String callbackUrl, CallbackRequest callbackRequest){
         try {
             String response = this.restTemplate.postForObject(callbackUrl, callbackRequest, String.class);

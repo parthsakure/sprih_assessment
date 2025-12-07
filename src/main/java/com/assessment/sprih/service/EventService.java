@@ -51,4 +51,8 @@ public class EventService {
         String message = "Event accepted for processing.";
         return new EventResponse(eventId, message);
     }
+
+    public void stop(){
+         eventThreads.stop();
+    }
 }
