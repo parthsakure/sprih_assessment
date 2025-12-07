@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  event-system:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platforms:
+        - linux/arm64
+    ports:
+      - "8080:8080"
