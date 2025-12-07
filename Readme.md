@@ -1,8 +1,14 @@
 # Docker Compose Setup Instructions
 
 ---
+## Build Jar
+use following command to build jar file
+```
+$ mvn package spring-boot:repackage
+```
 
-## 📁 Project Structure
+---
+## Project Structure
 Your project directory should look like this:
 ```
 project/
@@ -15,29 +21,29 @@ The JAR file must be inside the **target/** folder before building the Docker im
 
 ---
 
-## ▶️ How to Run the Application
+## How to Run the Application
 Navigate to the project folder:
 ```
-cd project
+$ cd project
 ```
 
-### 1️⃣ Build and run using Docker Compose
+### Build and run using Docker Compose
 ```
-docker compose up --build
+$ docker compose up --build
 ```
 This will:
 - Build the Docker image
 - Start the container
 - Expose the API on **http://localhost:8080**
 
-### 2️⃣ Run in background mode
+### Run in background mode
 ```
-docker compose up --build -d
+$ docker compose up --build -d
 ```
 
 ---
 
-## 🌐 API Endpoint
+## API Endpoint
 Once running, the main API endpoint is:
 ```
 POST http://localhost:8080/api/events
