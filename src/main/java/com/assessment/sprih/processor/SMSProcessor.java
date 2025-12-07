@@ -11,7 +11,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class SMSProcessor extends EventProcessor {
     public SMSProcessor(BlockingQueue<Event> queue, CallbackService callbackService) {
-        super(queue, callbackService);
+        super(queue, callbackService, "SMS");
     }
 
     @Override

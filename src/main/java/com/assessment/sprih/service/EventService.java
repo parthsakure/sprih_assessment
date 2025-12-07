@@ -9,6 +9,7 @@ import com.assessment.sprih.processor.EventRunnable;
 import com.assessment.sprih.queue.EventQueues;
 import com.assessment.sprih.queue.EventThreads;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +54,12 @@ public class EventService {
     }
 
     public void stop(){
-         eventThreads.stop();
+        System.out.println("Started graceful Shutdown...");
+        try {
+            eventThreads.stop();
+        }
+        catch (InterruptedException e){
+            e.printStackTrace();
+        }
     }
 }

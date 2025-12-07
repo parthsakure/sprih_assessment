@@ -11,7 +11,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class EmailProcessor extends EventProcessor{
     public EmailProcessor(BlockingQueue<Event> queue, CallbackService callbackService){
-        super(queue, callbackService);
+        super(queue, callbackService, "Email");
     }
 
     @Override

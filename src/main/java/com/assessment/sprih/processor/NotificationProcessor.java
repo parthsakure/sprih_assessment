@@ -10,7 +10,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class NotificationProcessor extends EventProcessor{
     public NotificationProcessor(BlockingQueue<Event> queue, CallbackService callbackService) {
-        super(queue,callbackService);
+        super(queue,callbackService, "Notification");
     }
 
     @Override

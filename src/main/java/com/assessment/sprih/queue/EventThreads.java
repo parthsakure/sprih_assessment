@@ -30,9 +30,13 @@ public class EventThreads {
         notification.start();
     }
 
-    public void stop(){
+    public void stop() throws InterruptedException {
+        System.out.println("Waiting for Each Thread to stop....");
         emailRunnable.stop();
+        email.join();
         smsRunnable.stop();
+        sms.join();
         notificationRunnable.stop();
+        notification.join();
     }
 }
